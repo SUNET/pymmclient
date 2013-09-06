@@ -10,7 +10,7 @@ __organization__ = 'SUNET'
 __license__ = 'BSD'
 
 __all__ = [
-    'recipient'
+    'recipient',
     'message'
 ]
 
