@@ -11,6 +11,7 @@ __license__ = 'BSD'
 
 __all__ = [
     'recipient'
+    'message'
 ]
 
 # Currently set to the test environment
