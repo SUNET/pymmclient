@@ -10,9 +10,9 @@
         xmlns:sig="http://www.w3.org/2000/09/xmldsig#">
 
     <import schemaLocation="Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common" />
+	<import schemaLocation="Sender.xsd" namespace="http://minameddelanden.gov.se/schema/Sender" />
     <import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient" />
 	<import schemaLocation="Notification.xsd" namespace="http://minameddelanden.gov.se/schema/Notification" />
-	<import schemaLocation="Sender.xsd" namespace="http://minameddelanden.gov.se/schema/Sender" />
 	<import schemaLocation="xmldsig-core-schema.xsd" namespace="http://www.w3.org/2000/09/xmldsig#" />
  	<import schemaLocation="Receipt.xsd" namespace="http://minameddelanden.gov.se/schema/Receipt" />
  	<import schemaLocation="Reply.xsd" namespace="http://minameddelanden.gov.se/schema/Reply" />
