@@ -1,13 +1,29 @@
 import pymmclient
 from pymmclient.transport import CertAuthTransport
-#from suds.xsd.sxbasic import Import
 from suds.client import Client
+from suds.cache import ObjectCache
+from suds.xsd.sxbasic import Import
+
+
+__version__ = '0.3dev'
 
 
 class MMClient:
-    def __init__(self, wsdl, cert, url, **kwargs):
-        #for s in ('Authority', 'Consent', 'Common', 'Dispatcher', 'Message','Notification', 'Receipt', 'Recipient', 'Reply','Sender','Service'):
-        #    Import.bind('http://minameddelanden.gov.se/schema/%s' % s, 'file://%s/schema/%s.xsd' % (path, s))
+    def __init__(self, wsdl, cert, url, use_cache, **kwargs):
+        path = pymmclient.utils.get_mroot()
+
+        if use_cache:
+            cache = ObjectCache(days=1)
+        else:
+            cache = None
+
+        plugins = kwargs.pop('plugins', None)
+        if plugins is not None:
+            self.plugins = plugins
+        else:
+            self.plugins = []
+
         transport = CertAuthTransport(cert=cert, **kwargs)
         headers = {"Content-TYpe": "text/xml;charset=UTF-8"}
-        self.client = Client('file://%s/%s' % (pymmclient.get_mroot(), wsdl), location=url, transport=transport, headers=headers)
+        self.client = Client('file://%s/%s' % (path, wsdl), location=url, transport=transport, headers=headers,
+                             cache=cache, plugins=self.plugins)
