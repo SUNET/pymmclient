@@ -92,6 +92,17 @@ class Message(MMClient):
 
         return sec_message
 
+    def check_distribution_status(self, sender_org_nr, transaction_id):
+        """
+        Check if a secure message has been successfully delivered to the recipient.
+
+        @param sender_org_nr: The sender organisation number.
+        @type sender_org_nr: int
+        @param transaction_id: The transaction ID received from send_secure_message()
+        @type transaction_id: str
+        """
+        return self.client.service.checkDistributionStatus(sender_org_nr, transaction_id)
+
     def _create_delivery_header(self):
         header = self.client.factory.create('ns3:DeliveryHeader')
         header.Sender.Id = self.sender_org_nr
