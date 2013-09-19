@@ -39,11 +39,21 @@ class Message(MMClient):
         self.support_email = support_email
         self.support_url = support_url
         self.ws_endpoint = kwargs.pop('ws_endpoint', p.__ws_base_endpoint__ + 'Message')
-        dsig_plugin = DSigPlugin(self.cert, self.key_file)
         MMClient.__init__(self, wsdl='Message.wsdl', cert=(cert, key_file), url=self.ws_endpoint, use_cache=use_cache,
-                          plugins=[dsig_plugin], **kwargs)
+                          **kwargs)
 
     def send_secure_message(self, recipients, secure_message):
+        """
+        Send a secure message to a list of recipients.
+
+        @param recipients: A list of social security numbers
+        @type recipients: list of int
+        @param
+        """
+        # Load suds DSIG plugin
+        dsig_plugin = DSigPlugin(self.cert, self.key_file)
+        self.client.set_options(plugins=[dsig_plugin])
+
         secure_delivery = self.client.factory.create('ns3:SecureDelivery')
         header = self._create_delivery_header()
 
@@ -58,9 +68,13 @@ class Message(MMClient):
         secure_delivery.Message.append(secure_message)
         signed_delivery = self.client.factory.create('ns3:SignedDelivery')
         signed_delivery.Delivery = secure_delivery
-        print signed_delivery
 
-        self.client.service.distributeSecure(signed_delivery)
+        result = self.client.service.distributeSecure(signed_delivery)
+
+        # Unload DSIG plugin
+        self.client.set_options(plugins=[])
+
+        return result
 
     def create_secure_message(self, subject, message, content_type, language):
         """
