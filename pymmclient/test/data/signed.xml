@@ -1,0 +1,18 @@
+<arg0><Delivery><Header><Sender><Id xmlns="http://minameddelanden.gov.se/schema/Sender">162021003898</Id><Name xmlns="http://minameddelanden.gov.se/schema/Sender">Kommun B</Name></Sender><Recipient>192705178354</Recipient></Header><Message><Header><Id>58fd74de-2441-11e3-a145-542696cf5deb</Id><Subject>Test-skicka</Subject><Supportinfo><Text>V&#228;nd er till X om ni har fr&#229;gor ang&#229;ende detta meddelande</Text><URL>http://www.kommun_b.se</URL><PhoneNumber>08-12121212</PhoneNumber><EmailAdress>info@kommun_b.se</EmailAdress></Supportinfo><Language>svSE</Language><Reply>NOT_ALLOWED</Reply><ReceiptRequest>NOT</ReceiptRequest></Header><Body><ContentType>text/plain</ContentType><Body>dGVzdA==</Body></Body></Message></Delivery><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>k+56R+ExBuPyaY8hcnwyJeU/xL0=</DigestValue></Reference></SignedInfo><SignatureValue>0KxZvE68hFiDL3NnrJTSc/h4/B1G8ZkIdTYMwzmyUVkIdxqWzhKlOfHakl0F/IpXwA+n7LQKKzENjXdARCMeGWbn1Wd3+c8fCokvDahVY70e6qdEdRronE2QoOHShNdJWWNQpLNSbF8LU1jb0+h+4RYYvgdk14KrjOArEMpmhoI=</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIDNDCCAp2gAwIBAgICBywwDQYJKoZIhvcNAQEFBQAwQTELMAkGA1UEBhMCU0Ux
+EjAQBgNVBAoTCVN0ZXJpYSBBQjEeMBwGA1UEAxMVU3RlcmlhIEFCIEVJRCBUZXN0
+IHYxMB4XDTEzMDEyMTEzMDk0NloXDTE0MDkwMTEyMDk1NVowczELMAkGA1UEBhMC
+U0UxETAPBgNVBAoTCEtvbW11biBCMRkwFwYDVQQLExBLb21tdW4gQiBJVCBURVNU
+MTYwEwYDVQQFEwwxNjIwMjEwMDM4OTgwHwYDVQQDExhub3RhcmVhbGhvc3Qua29t
+bXVuLWIuc2UwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAOV9Ud0xIzjjcxtG
+p1Wy15t/lHMb6YuqMfRn6wekeZadJ7oex3ysDDnujaQYzeBXHG1HQvc3SC0XrCSP
+0Prcy9F/y0DTNoDHbdysvps//tY7uDRU6L2B3rjbjeaNm/yL24Xr4rqmy7xOH1F0
+HRDg0qtOd+Cr/pTGHROrPBJS3QJfAgMBAAGjggEHMIIBAzAfBgNVHSMEGDAWgBRB
+SJ7t8lUr5oUBM3/jDueuT3QVVzAdBgNVHQ4EFgQUTRy7iXwVpr2kVUkMNGOUGcf8
+q2QwDgYDVR0PAQH/BAQDAgWgMBUGA1UdIAQOMAwwCgYIKoVwNgkCDgEwgZkGA1Ud
+HwSBkTCBjjBFoEOgQYY/aHR0cDovL2NkcDMuc3RlcmlhLnNlL2NkcC9wa2kvU3Rl
+cmlhJTIwQUIlMjBFSUQlMjBUZXN0JTIwdjEuY3JsMEWgQ6BBhj9odHRwOi8vY2Rw
+MS5zdGVyaWEuc2UvY2RwL2VpZC9TdGVyaWElMjBBQiUyMEVJRCUyMFRlc3QlMjB2
+MS5jcmwwDQYJKoZIhvcNAQEFBQADgYEAKWqu2GO+ZrZy9tAOKvBf4qfYC/PprYS8
+20+5KPytMtrJGROupXQEjELl2J7SJH2QhhyfA4zLXVTMdeWacaDDZpFvzEXUIl2C
+ylL8dO5J9eMGPqaOXSnjP8XMwNAZVY7o7AO45oMf2L9lfXbvRyXDEmRf5IBkhdjR
+PZ64PJd4GVY=</X509Certificate></X509Data></KeyInfo></Signature></arg0>
