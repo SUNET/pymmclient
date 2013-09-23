@@ -1,7 +1,10 @@
 from lxml import etree
 from suds.plugin import MessagePlugin
-import pymmclient
+from logging import getLogger
+import pymmclient.utils
 import xmlsec
+
+log = getLogger(__name__)
 
 
 class DSigPlugin(MessagePlugin):
@@ -20,7 +23,9 @@ class DSigPlugin(MessagePlugin):
                                           'ns4': 'http://minameddelanden.gov.se/schema/Message'})
         parser = etree.XMLParser(ns_clean=True, recover=True)
         unsigned_delivery = self.drop_ns(etree.fromstring(etree.tostring(arg0[0]), parser=parser))
+        log.debug("Before adding dsig signature:\n%s", etree.tostring(unsigned_delivery, pretty_print=True))
         signed_delivery = self.secure_message_sign(unsigned_delivery)
+        log.debug("After adding dsig signature:\n%s", etree.tostring(signed_delivery, pretty_print=True))
         signed_delivery = self.apply_ns(signed_delivery)
 
         # Find distributeSecure element
