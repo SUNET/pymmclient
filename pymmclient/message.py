@@ -2,18 +2,25 @@ from pymmclient.client import MMClient
 from plugin import DSigPlugin
 from uuid import uuid1
 from base64 import b64encode
+from logging import getLogger
 
 import pymmclient as p
+
+log = getLogger(__name__)
 
 
 class Message(MMClient):
     def __init__(self, cert, key_file, use_cache, sender_org_nr, sender_org_name, support_text, support_phone,
-                 support_email, support_url, **kwargs):
+                 support_email, support_url, ws_endpoint=p.__ws_base_endpoint__ + 'Message', **kwargs):
         """
-        @param cert: Path to authorization certificate (cert + key) in PEM format
+        @param cert: Path to authentication client certificate in PEM format
         @type cert: str
+        @param key_file: Path to key file in PEM format
+        @type key_file: str
         @param use_cache: Enable XSD caching in python-suds
         @type use_cache: bool
+        @param ws_endpoint: (Optional) The webservice URL
+        @type ws_endpoint: str
         @param sender_org_nr: Sender organisation number
         @type sender_org_nr: int
         @param sender_org_name: Sender organisation name
@@ -21,7 +28,7 @@ class Message(MMClient):
         @param ws_endpoint: (optional) override webservice URL endpoint
         @type ws_endpoint: str
         @param support_text: Support text instructing the user where to go for help
-        @type support_text: basestring
+        @type support_text: str
         @param support_phone: Support phone number
         @type support_phone: str
         @param support_email: Support email address
@@ -31,15 +38,13 @@ class Message(MMClient):
         """
         self.cert = cert
         self.key_file = key_file
-        self.use_cache = use_cache
         self.sender_org_nr = sender_org_nr
         self.sender_org_name = sender_org_name
-        self.support_text = support_text
+        self.support_text = support_text.decode('utf-8')
         self.support_phone = support_phone
         self.support_email = support_email
         self.support_url = support_url
-        self.ws_endpoint = kwargs.pop('ws_endpoint', p.__ws_base_endpoint__ + 'Message')
-        MMClient.__init__(self, wsdl='Message.wsdl', cert=(cert, key_file), url=self.ws_endpoint, use_cache=use_cache,
+        MMClient.__init__(self, wsdl='Message.wsdl', cert=(cert, key_file), url=ws_endpoint, use_cache=use_cache,
                           **kwargs)
 
     def send_secure_message(self, recipients, secure_message):
@@ -80,6 +85,14 @@ class Message(MMClient):
         """
         Creates a secure message object used as argument in send_secure_message()
 
+        @param subject: Message subject (utf-8)
+        @type subject: unicode
+        @param message: The body of the secure message (utf-8)
+        @type message: unicode
+        @param content_type: Message content type (example: text/plain)
+        @type content_type: str
+        @param language: Message language (example: svSE)
+        @type language: str
         @return Secure Message Object
         """
         sec_message = self.client.factory.create('ns3:SecureMessage')
@@ -88,7 +101,7 @@ class Message(MMClient):
         sec_message.Header.Subject = subject
         sec_message.Header.Language = language
         sec_message.Body.ContentType = content_type
-        sec_message.Body.Body = b64encode(message)
+        sec_message.Body.Body = b64encode(message.encode('utf-8'))
 
         return sec_message
 

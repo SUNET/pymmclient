@@ -1,8 +1,7 @@
-import pymmclient
+import pymmclient.utils
 from pymmclient.transport import CertAuthTransport
 from suds.client import Client
 from suds.cache import ObjectCache
-from suds.xsd.sxbasic import Import
 
 
 __version__ = '0.3dev'
