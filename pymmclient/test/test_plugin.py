@@ -1,11 +1,13 @@
-from pymmclient.plugin import DSigPlugin
+from pymmclient.plugin import DSigPlugin, SerializablePlugin
+from pymmclient.client import MMClient
 from lxml import etree
 import pkg_resources
 import os
+import cPickle
 import unittest
 
 
-class TestPlugin(unittest.TestCase):
+class TestDSIGPlugin(unittest.TestCase):
     def setUp(self):
         data_dir = pkg_resources.resource_filename(__name__, 'data')
         cert = os.path.join(data_dir, 'Kommun_B.crt')
@@ -23,3 +25,21 @@ class TestPlugin(unittest.TestCase):
     def test_drop_namespace(self):
         xml = self.dsig.drop_ns(self.with_ns)
         self.assertEquals(etree.tostring(xml, pretty_print=False), etree.tostring(self.without_ns, pretty_print=False))
+
+
+class TestSerializablePlugin(unittest.TestCase):
+    def setUp(self):
+        self.serialize = SerializablePlugin()
+        self.not_serializable = MMClient('Message.wsdl', '', '', False).client.factory.create('ns3:SecureMessage')
+
+    def test_serializable(self):
+        try:
+            cPickle.dumps(self.not_serializable)
+        except AttributeError:
+            pass
+
+        serializable = self.serialize._recursive_asdict(self.not_serializable)
+        self.assertTrue(cPickle.dumps(serializable))
+
+if __name__ == '__main__':
+    unittest.main()

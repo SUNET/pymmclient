@@ -1,5 +1,6 @@
 from lxml import etree
 from suds.plugin import MessagePlugin
+from suds.sudsobject import asdict
 from logging import getLogger
 import pymmclient.utils
 import xmlsec
@@ -63,3 +64,34 @@ class DSigPlugin(MessagePlugin):
         del xml_signed.attrib['xmlns']
 
         return xml_signed
+
+
+class SerializablePlugin(MessagePlugin):
+    def unmarshalled(self, context):
+        if isinstance(context.reply, list) and len(context.reply) > 0:
+            reply = []
+            for item in context.reply:
+                reply.append(self._recursive_asdict(item))
+        else:
+            reply = self._recursive_asdict(context.reply)
+
+        context.reply = reply
+
+    def _recursive_asdict(self, d):
+        """
+        Convert Suds object into serializable format.
+        """
+        out = {}
+        for k, v in asdict(d).iteritems():
+            if hasattr(v, '__keylist__'):
+                out[k] = self._recursive_asdict(v)
+            elif isinstance(v, list):
+                out[k] = []
+                for item in v:
+                    if hasattr(item, '__keylist__'):
+                        out[k].append(self._recursive_asdict(item))
+                    else:
+                        out[k].append(item)
+            else:
+                out[k] = v
+        return out
