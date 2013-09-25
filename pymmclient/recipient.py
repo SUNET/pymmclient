@@ -13,6 +13,10 @@ class Recipient(MMClient):
         @type use_cache: bool
         @param ws_endpoint: The webservice URL
         @type ws_endpoint: str
+        @param verify: (optional) Whether to verify SSL endpoint certificate or not, default True
+        @type verify: bool
+        @param serializable: (optional) Return values will be returned in a serializable format instead of as a suds object
+        @type serializable: bool
         """
         MMClient.__init__(self, wsdl='Recipient.wsdl', cert=(cert, key_file), url=ws_endpoint, use_cache=use_cache, **kwargs)
 

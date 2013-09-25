@@ -35,6 +35,10 @@ class Message(MMClient):
         @type support_email: str
         @param support_url: Support web page URL
         @type support_url: str
+        @param verify: (optional) Whether to verify SSL endpoint certificate or not, default True
+        @type verify: bool
+        @param serializable: (optional) Return values will be returned in a serializable format instead of as a suds object
+        @type serializable: bool
         """
         self.cert = cert
         self.key_file = key_file

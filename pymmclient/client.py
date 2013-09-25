@@ -10,6 +10,22 @@ __version__ = '0.3dev'
 
 class MMClient:
     def __init__(self, wsdl, cert, url, use_cache, **kwargs):
+        """
+        @param wsdl: Which bundled wsdl file to load
+        @type wsdl: str
+        @param cert: Path to certificate file and key file
+        @type cert: tuple (cert, key)
+        @param url: Service URL endpoint
+        @type url: str
+        @param use_cache: Enable or disable XSD caching in suds
+        @type use_cache: bool
+        @param verify: (optional) Whether to verify SSL endpoint certificate or not, default True
+        @type verify: bool
+        @param serializable: (optional) Return values will be returned in a serializable format instead of as a suds object
+        @type serializable: bool
+        @param plugins: (optional) List of suds plugins to load
+        @type plugins: list of plugins
+        """
         path = pymmclient.utils.get_mroot()
 
         if use_cache:
