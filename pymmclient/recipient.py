@@ -9,7 +9,7 @@ class Recipient(MMClient):
         @type cert: str
         @param key_file: Path to key file in PEM format
         @type key_file: str
-        @param use_cache: Enable/Disable XSD caching in python-suds
+        @param use_cache: (Optional) Enable/Disable XSD caching in python-suds
         @type use_cache: bool
         @param ws_endpoint: The webservice URL
         @type ws_endpoint: str

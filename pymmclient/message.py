@@ -10,31 +10,29 @@ log = getLogger(__name__)
 
 
 class Message(MMClient):
-    def __init__(self, cert, key_file, use_cache, sender_org_nr, sender_org_name, support_text, support_phone,
-                 support_email, support_url, ws_endpoint=p.__ws_base_endpoint__ + 'Message', **kwargs):
+    def __init__(self, cert, key_file, sender_org_nr, sender_org_name, support_text, use_cache=True, support_phone=None,
+                 support_email=None, support_url=None, ws_endpoint=p.__ws_base_endpoint__ + 'Message', **kwargs):
         """
         @param cert: Path to authentication client certificate in PEM format
         @type cert: str
         @param key_file: Path to key file in PEM format
         @type key_file: str
-        @param use_cache: Enable XSD caching in python-suds
-        @type use_cache: bool
-        @param ws_endpoint: (Optional) The webservice URL
-        @type ws_endpoint: str
         @param sender_org_nr: Sender organisation number
         @type sender_org_nr: int
         @param sender_org_name: Sender organisation name
         @type sender_org_name: str
-        @param ws_endpoint: (optional) override webservice URL endpoint
-        @type ws_endpoint: str
         @param support_text: Support text instructing the user where to go for help
         @type support_text: str
-        @param support_phone: Support phone number
+        @param use_cache: (optional) Enable XSD caching in python-suds
+        @type use_cache: bool
+        @param support_phone: (optional) Support phone number
         @type support_phone: str
-        @param support_email: Support email address
+        @param support_email: (optional) Support email address
         @type support_email: str
-        @param support_url: Support web page URL
+        @param support_url: (optional) Support web page URL
         @type support_url: str
+        @param ws_endpoint: (optional) override webservice URL endpoint
+        @type ws_endpoint: str
         @param verify: (optional) Whether to verify SSL endpoint certificate or not, default True
         @type verify: bool
         @param serializable: (optional) Return values will be returned in a serializable format instead of as a suds object
