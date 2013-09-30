@@ -1,14 +1,21 @@
 #!/usr/bin/env python
 
-from pymmclient import client
 from setuptools import setup, find_packages
+from distutils import versionpredicate
 
+#install_requires=[
+#    'suds (>= 0.4.1)',
+#    'requests (>= 1.2.3)',
+#    'lxml (>= 3.0)',
+#    'pyXMLSecurity (>=0.10)'
+#]
 install_requires=[
-    'suds (>= 0.4.1)',
-    'requests (>= 1.2.3)',
-    'lxml (>= 3.0)',
-    'pyXMLSecurity (>=0.10)'
+    'suds >= 0.4.1',
+    'requests >= 1.2.3',
+    'lxml >= 3.0',
+    'pyXMLSecurity >= 0.10'
 ]
+
 
 testing_extras = [
     'nose==1.2.1',
@@ -19,7 +26,7 @@ testing_extras = [
 
 setup(
     name='pymmclient',
-    version=client.__version__,
+    version='0.3dev',
     description='Python API for the Swedish government service "Mina Meddelanden"',
     author='Stefan Wold',
     author_email='swold@sunet.se',
@@ -30,7 +37,7 @@ setup(
     package_data={
         'pymmclient': ['*.wsdl', 'schema/*.xsd', 'xslt/*.xsl']
     },
-    requires=install_requires,
+    install_requires=install_requires,
     extras_require={
         'testing': testing_extras
     }
