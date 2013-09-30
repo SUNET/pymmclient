@@ -10,6 +10,13 @@ install_requires=[
     'pyXMLSecurity (>=0.10)'
 ]
 
+testing_extras = [
+    'nose==1.2.1',
+    'nosexcover==1.0.8',
+    'coverage==3.6',
+    'suds==0.4.1'
+]
+
 setup(
     name='pymmclient',
     version=client.__version__,
@@ -19,9 +26,12 @@ setup(
     maintainer='Stefan Wold',
     license='BSD',
     url='https://github.com/SUNET/pymmclient',
-    packages=find_packages(),
+    packages=find_packages(exclude=['test']),
     package_data={
         'pymmclient': ['*.wsdl', 'schema/*.xsd', 'xslt/*.xsl']
     },
-    requires=install_requires
+    requires=install_requires,
+    extras_require={
+        'testing': testing_extras
+    }
 )
