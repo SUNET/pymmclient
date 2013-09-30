@@ -1,4 +1,4 @@
-from pymmclient.plugin import DSigPlugin, SerializablePlugin
+from pymmclient.plugin import DSigPlugin, SerializablePlugin, drop_ns
 from pymmclient.client import MMClient
 from lxml import etree
 import pkg_resources
@@ -23,7 +23,7 @@ class TestDSIGPlugin(unittest.TestCase):
         self.assertEquals(etree.tostring(xml, pretty_print=False), etree.tostring(self.signed_xml, pretty_print=False))
 
     def test_drop_namespace(self):
-        xml = self.dsig.drop_ns(self.with_ns)
+        xml = drop_ns(self.with_ns)
         self.assertEquals(etree.tostring(xml, pretty_print=False), etree.tostring(self.without_ns, pretty_print=False))
 
 

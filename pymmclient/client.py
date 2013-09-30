@@ -1,3 +1,6 @@
+"""
+This module provides a wrapper for suds.client
+"""
 import pymmclient.utils
 from pymmclient.transport import CertAuthTransport
 from pymmclient.plugin import SerializablePlugin
@@ -8,7 +11,10 @@ from suds.cache import ObjectCache
 __version__ = '0.3dev'
 
 
-class MMClient:
+class MMClient(object):
+    """
+    This class represents a wrapper for suds.client
+    """
     def __init__(self, wsdl, cert, url, use_cache, **kwargs):
         """
         @param wsdl: Which bundled wsdl file to load

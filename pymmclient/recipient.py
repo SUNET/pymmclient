@@ -1,8 +1,15 @@
+"""
+This module implements Recipient from "Mina meddelanden"
+"""
+
 from pymmclient.client import MMClient
 import pymmclient as p
 
 
 class Recipient(MMClient):
+    """
+    This class is used to verify if a user exists in "Mina meddelanden"
+    """
     def __init__(self, cert, key_file, use_cache=True, ws_endpoint=p.__ws_base_endpoint__ + 'Recipient', **kwargs):
         """
         @param cert: Path to authentication client certificate in PEM format

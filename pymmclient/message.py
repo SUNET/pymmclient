@@ -1,15 +1,22 @@
+"""
+This module implements Message from "Mina meddelanden"
+"""
+
 from pymmclient.client import MMClient
-from plugin import DSigPlugin
+from pymmclient.plugin import DSigPlugin
 from uuid import uuid1
 from base64 import b64encode
 from logging import getLogger
 
 import pymmclient as p
 
-log = getLogger(__name__)
+LOG = getLogger(__name__)
 
 
 class Message(MMClient):
+    """
+    This class is used to send secure messages through "Mina meddelanden"
+    """
     def __init__(self, cert, key_file, sender_org_nr, sender_org_name, support_text, use_cache=True, support_phone=None,
                  support_email=None, support_url=None, ws_endpoint=p.__ws_base_endpoint__ + 'Message', **kwargs):
         """
@@ -35,7 +42,8 @@ class Message(MMClient):
         @type ws_endpoint: str
         @param verify: (optional) Whether to verify SSL endpoint certificate or not, default True
         @type verify: bool
-        @param serializable: (optional) Return values will be returned in a serializable format instead of as a suds object
+        @param serializable: (optional) Return values will be returned in a serializable format instead of as a suds
+        object
         @type serializable: bool
         """
         self.cert = cert
@@ -119,12 +127,14 @@ class Message(MMClient):
         return self.client.service.checkDistributionStatus(sender_org_nr, transaction_id)
 
     def _create_delivery_header(self):
+        """ Create delivery header based on Message.xsd """
         header = self.client.factory.create('ns3:DeliveryHeader')
         header.Sender.Id = self.sender_org_nr
         header.Sender.Name = self.sender_org_name
         return header
 
     def _create_support_info(self):
+        """ Create support info based on Message.xsd """
         info = self.client.factory.create('ns3:SupportInfo')
         info.Text = self.support_text
         info.URL = self.support_url
