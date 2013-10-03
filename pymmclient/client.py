@@ -47,17 +47,41 @@ class MMClient(object):
 
         # If 'True' all objects are returned as serializable and not as suds objects
         serializable = kwargs.pop('serializable', False)
-        if serializable:
-            # Check that plugins does not contain a serializable plugin already
-            found = False
-            for plugin in self.plugins:
-                if isinstance(plugin, SerializablePlugin):
-                    found = True
-            if not found:
-                serialize = SerializablePlugin()
-                self.plugins.append(serialize)
 
         transport = CertAuthTransport(cert=cert, **kwargs)
         headers = {"Content-TYpe": "text/xml;charset=UTF-8"}
         self.client = Client('file://%s/%s' % (path, wsdl), location=url, transport=transport, headers=headers,
                              cache=cache, plugins=self.plugins)
+        if serializable:
+            self.load_plugin(SerializablePlugin)
+
+    def load_plugin(self, plugin, *args):
+        """
+        Load suds plugin.
+
+        @param plugin: Plugin class to load
+        @type plugin: Class
+        @param *args: Args passed on to the plugin on class instantiation
+        """
+        found = False
+        plugins = self.client.options.plugins
+        for p in plugins:
+            if isinstance(p, plugin):
+                found = True
+        if not found:
+            p = plugin(*args)
+            plugins.append(p)
+            self.client.set_options(plugins=plugins)
+
+    def unload_plugin(self, plugin):
+        """
+        Unload suds plugin.
+
+        @param plugin: Plugin class to unload
+        @type plugin: Class
+        """
+        plugins = self.client.options.plugins
+        for p in plugins:
+            if isinstance(p, plugin):
+                plugins.remove(p)
+        self.client.set_options(plugins=plugins)

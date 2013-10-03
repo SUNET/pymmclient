@@ -66,9 +66,7 @@ class Message(MMClient):
         @param
         """
         # Load suds DSIG plugin
-        dsig_plugin = DSigPlugin(self.cert, self.key_file)
-        self.client.set_options(plugins=[dsig_plugin])
-
+        self.load_plugin(DSigPlugin, self.cert, self.key_file)
         secure_delivery = self.client.factory.create('ns3:SecureDelivery')
         header = self._create_delivery_header()
 
@@ -87,7 +85,7 @@ class Message(MMClient):
         result = self.client.service.distributeSecure(signed_delivery)
 
         # Unload DSIG plugin
-        self.client.set_options(plugins=[])
+        self.unload_plugin(DSigPlugin)
 
         return result
 

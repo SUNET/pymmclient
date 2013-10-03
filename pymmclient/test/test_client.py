@@ -1,5 +1,5 @@
 from pymmclient.client import MMClient
-from pymmclient.plugin import SerializablePlugin, MessagePlugin
+from pymmclient.plugin import SerializablePlugin, DSigPlugin
 from pymmclient.transport import CertAuthTransport
 from suds.cache import ObjectCache, NoCache
 import unittest
@@ -23,12 +23,23 @@ class TestMMClient(unittest.TestCase):
         self.assertTrue(isinstance(mmclient.client.options.transport, CertAuthTransport))
 
     def test_mm_client_multiple_plugins(self):
-        mp = MessagePlugin()
+        dp = DSigPlugin('1', '2')
         sp = SerializablePlugin()
-        mmclient = MMClient('Message.wsdl', '', '', False, plugins=[mp, sp], serializable=True)
-        self.assertTrue(isinstance(mmclient.client.options.plugins[0], MessagePlugin))
+        mmclient = MMClient('Message.wsdl', '', '', False, plugins=[dp, sp], serializable=True)
+        self.assertTrue(isinstance(mmclient.client.options.plugins[0], DSigPlugin))
         self.assertTrue(isinstance(mmclient.client.options.plugins[1], SerializablePlugin))
         self.assertEquals(len(mmclient.client.options.plugins), 2)
+
+    def test_load_unload_plugins(self):
+        dp = DSigPlugin('1', '2')
+        sp = SerializablePlugin()
+        mmclient = MMClient('Message.wsdl', '', '', False, plugins=[dp, sp], serializable=True)
+        mmclient.unload_plugin(DSigPlugin)
+        self.assertEquals(len(mmclient.client.options.plugins), 1)
+        mmclient.load_plugin(DSigPlugin,'1', '2')
+        self.assertEquals(len(mmclient.client.options.plugins), 2)
+        self.assertTrue(isinstance(mmclient.client.options.plugins[0], SerializablePlugin))
+        self.assertTrue(isinstance(mmclient.client.options.plugins[1], DSigPlugin))
 
 
 if __name__ == '__main__':
