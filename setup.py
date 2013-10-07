@@ -13,7 +13,7 @@ install_requires=[
     'suds >= 0.4.1',
     'requests >= 1.2.3',
     'lxml >= 3.0',
-    'pyXMLSecurity >= 0.10'
+    'pyXMLSecurity == 0.10.1dev'
 ]
 
 
@@ -26,7 +26,7 @@ testing_extras = [
 
 setup(
     name='pymmclient',
-    version='0.6',
+    version='0.6.1',
     description='Python API for the Swedish government service "Mina Meddelanden"',
     author='Stefan Wold',
     author_email='swold@sunet.se',
