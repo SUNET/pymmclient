@@ -18,7 +18,7 @@ class TestRecipient(unittest.TestCase):
     def test_is_reachable(self):
         result = self.r.is_reachable(self.sender_org_nr, self.recipient)
         self.assertEquals(result[0].AccountStatus.RecipientId, self.recipient)
-        #self.assertEquals(result[0].AccountStatus.Type, 'Secure')
+        self.assertEquals(result[0].AccountStatus.Type, 'Secure')
 
     def test_is_serializable(self):
         serialize = SerializablePlugin()

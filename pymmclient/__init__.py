@@ -13,4 +13,4 @@ __all__ = [
 ]
 
 # Currently set to the test environment
-__ws_base_endpoint__ = 'https://notarealhost.skatteverket.se/webservice/acc/'
+__ws_base_endpoint__ = 'https://notarealhost.skatteverket.se/webservice/accao/'
