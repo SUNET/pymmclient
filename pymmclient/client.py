@@ -8,7 +8,7 @@ from suds.client import Client
 from suds.cache import ObjectCache
 
 
-__version__ = '0.6.3'
+__version__ = '0.6.4'
 
 
 class MMClient(object):
