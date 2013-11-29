@@ -7,7 +7,6 @@ from pymmclient.plugin import DSigPlugin
 from uuid import uuid1
 from base64 import b64encode
 from logging import getLogger
-
 import pymmclient as p
 
 LOG = getLogger(__name__)
@@ -38,6 +37,8 @@ class Message(MMClient):
         @type support_email: str
         @param support_url: (optional) Support web page URL
         @type support_url: str
+        @param use_cache: Enable or disable XSD caching in suds
+        @type use_cache: bool
         @param ws_endpoint: (optional) override webservice URL endpoint
         @type ws_endpoint: str
         @param verify: (optional) Whether to verify SSL endpoint certificate or not, default True
@@ -106,12 +107,30 @@ class Message(MMClient):
         sec_message = self.client.factory.create('ns3:SecureMessage')
         sec_message.Header.Supportinfo = self._create_support_info()
         sec_message.Header.Id = uuid1()
-        sec_message.Header.Subject = subject
+        sec_message.Header.Subject = subject.decode('utf-8')
         sec_message.Header.Language = language
         sec_message.Body.ContentType = content_type
         sec_message.Body.Body = b64encode(message.encode('utf-8'))
 
         return sec_message
+
+    def create_signed_delivery(self, recipients, secure_message):
+        secure_delivery = self.client.factory.create('ns3:SecureDelivery')
+        header = self._create_delivery_header()
+
+        if isinstance(recipients, list):
+            header.Recipient = recipients
+        else:
+            raise ValueError('Invalid argument type: recipients needs to be a list')
+
+        secure_message.Header.Reply = "NOT_ALLOWED"
+        secure_delivery.Header = header
+        secure_message.Header.ReceiptRequest = "NOT"
+        secure_delivery.Message.append(secure_message)
+        signed_delivery = self.client.factory.create('ns3:SignedDelivery')
+        signed_delivery.Delivery = secure_delivery
+
+        return signed_delivery
 
     def check_distribution_status(self, sender_org_nr, transaction_id):
         """

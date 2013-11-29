@@ -1,6 +1,7 @@
-from pymmclient.plugin import DSigPlugin, SerializablePlugin, drop_ns
+from pymmclient.plugin import DSigPlugin, SerializablePlugin, apply_xslt, SealedDeliveryPlugin
 from pymmclient.client import MMClient
 from lxml import etree
+from mock import MagicMock
 import pkg_resources
 import os
 import cPickle
@@ -23,8 +24,24 @@ class TestDSIGPlugin(unittest.TestCase):
         self.assertEquals(etree.tostring(xml, pretty_print=False), etree.tostring(self.signed_xml, pretty_print=False))
 
     def test_drop_namespace(self):
-        xml = drop_ns(self.with_ns)
+        xml = apply_xslt(self.with_ns, 'secure_message_drop_ns.xsl')
         self.assertEquals(etree.tostring(xml, pretty_print=False), etree.tostring(self.without_ns, pretty_print=False))
+
+
+class TestSealedDeliveryPlugin(unittest.TestCase):
+    def setUp(self):
+        data_dir = pkg_resources.resource_filename(__name__, 'data')
+        cert = os.path.join(data_dir, 'Kommun_B.crt')
+        key = os.path.join(data_dir, 'Kommun_B.key')
+        self.seal = SealedDeliveryPlugin(cert=cert, key_file=key)
+        self.unsigned_seal = etree.parse(os.path.join(data_dir, 'seal_in.xml')).getroot()
+        self.signed_seal = etree.parse(os.path.join(data_dir, 'seal_out.xml')).getroot()
+
+    def test_sending(self):
+        context = MagicMock
+        context.envelope = etree.tostring(self.unsigned_seal)
+        self.seal.sending(context)
+        self.assertEquals(context.envelope, etree.tostring(self.signed_seal))
 
 
 class TestSerializablePlugin(unittest.TestCase):

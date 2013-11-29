@@ -14,12 +14,13 @@ testing_extras = [
     'nose==1.2.1',
     'nosexcover==1.0.8',
     'coverage==3.6',
-    'suds==0.4.1'
+    'suds==0.4.1',
+    'mock==1.0.1',
 ]
 
 setup(
     name='pymmclient',
-    version='0.6.4',
+    version='0.7-dev',
     description='Python API for the Swedish government service "Mina Meddelanden"',
     author='Stefan Wold',
     author_email='swold@sunet.se',
