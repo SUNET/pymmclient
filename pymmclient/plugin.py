@@ -8,6 +8,7 @@ from suds.sudsobject import asdict
 from logging import getLogger
 import pymmclient.utils
 import xmlsec
+from xmlsec import constants
 
 LOG = getLogger(__name__)
 
@@ -57,8 +58,8 @@ class DSigPlugin(MessagePlugin):
         root.tag = 'SignedDelivery'
         unsigned_xml = apply_xslt(root, 'secure_message_drop_ns.xsl')
         unsigned_xml.attrib['xmlns'] = 'http://minameddelanden.gov.se/schema/Message'
-        xmlsec.add_enveloped_signature(unsigned_xml, pos=-1, c14n_method=xmlsec.TRANSFORM_C14N_EXCLUSIVE,
-                                       transforms=[xmlsec.TRANSFORM_ENVELOPED_SIGNATURE])
+        xmlsec.add_enveloped_signature(unsigned_xml, pos=-1, c14n_method=constants.TRANSFORM_C14N_EXCLUSIVE,
+                                       transforms=[constants.TRANSFORM_ENVELOPED_SIGNATURE])
         xml_signed = xmlsec.sign(unsigned_xml, self.key_file, self.cert)
         xml_signed.tag = 'arg0'
         del xml_signed.attrib['xmlns']
@@ -130,8 +131,8 @@ class SealedDeliveryPlugin(MessagePlugin):
         del root.attrib['xmlns']
         unsigned_xml = apply_xslt(root, 'secure_message_drop_ns.xsl')
         unsigned_xml.attrib['xmlns'] = 'http://minameddelanden.gov.se/schema/Message'
-        xmlsec.add_enveloped_signature(unsigned_xml, pos=-1, c14n_method=xmlsec.TRANSFORM_C14N_EXCLUSIVE,
-                                       transforms=[xmlsec.TRANSFORM_ENVELOPED_SIGNATURE])
+        xmlsec.add_enveloped_signature(unsigned_xml, pos=-1, c14n_method=constants.TRANSFORM_C14N_EXCLUSIVE,
+                                       transforms=[constants.TRANSFORM_ENVELOPED_SIGNATURE])
         xml_signed = xmlsec.sign(unsigned_xml, self.key_file, self.cert)
 
         return xml_signed
@@ -142,9 +143,9 @@ class SealedDeliveryPlugin(MessagePlugin):
         """
         root.tag = 'SealedDelivery'
         root.attrib['xmlns'] = 'http://minameddelanden.gov.se/schema/Message'
-        xmlsec.add_enveloped_signature(root, pos=-1, c14n_method=xmlsec.TRANSFORM_C14N_EXCLUSIVE,
-                                       transforms=[xmlsec.TRANSFORM_ENVELOPED_SIGNATURE,
-                                                   xmlsec.TRANSFORM_C14N_EXCLUSIVE])
+        xmlsec.add_enveloped_signature(root, pos=-1, c14n_method=constants.TRANSFORM_C14N_EXCLUSIVE,
+                                       transforms=[constants.TRANSFORM_ENVELOPED_SIGNATURE,
+                                                   constants.TRANSFORM_C14N_EXCLUSIVE])
         xml_signed = xmlsec.sign(root,
                                  self.key_file,
                                  self.cert,
