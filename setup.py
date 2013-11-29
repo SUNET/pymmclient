@@ -5,7 +5,7 @@ from distutils import versionpredicate
 
 install_requires=[
     'suds >= 0.4.1',
-    'requests >= 1.2.3',
+    'requests >= 1.2.0',
     'lxml >= 3.0',
     'pyXMLSecurity == 0.11'
 ]
