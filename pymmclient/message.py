@@ -110,7 +110,7 @@ class Message(MMClient):
         sec_message.Header.Subject = subject.decode('utf-8')
         sec_message.Header.Language = language
         sec_message.Body.ContentType = content_type
-        sec_message.Body.Body = b64encode(message.encode('utf-8'))
+        sec_message.Body.Body = b64encode(message).decode('utf-8')
 
         return sec_message
 
