@@ -16,7 +16,7 @@ class TestService(TestCase):
         self.recipient = '192705178354'
         self.message = Message(cert='/tmp/Kommun_B.crt',
                                key_file='/tmp/Kommun_B.key',
-                               sender_org_nr='162021003898',
+                               sender_org_nr=self.org_nr,
                                sender_org_name='Kommun B',
                                support_text='Vänd er till X om ni har frågor angående detta meddelande',
                                verify=False,
@@ -24,11 +24,11 @@ class TestService(TestCase):
                                support_phone='08-12121212',
                                support_email='info@kommun_b.se',
                                support_url='http://www.kommun_b.se')
-        self.far = Recipient(cert=self.cert, key_file=self.key, use_cache=False, verify=False)
+        self.far = Recipient(cert=self.cert, key_file=self.key, sender_org_nr=self.org_nr, use_cache=False, verify=False)
 
     def test_deliver_secure_message(self):
         # Get service URL from FAR
-        reachable = self.far.is_reachable(self.org_nr, self.recipient)
+        reachable = self.far.is_reachable(self.recipient)
         status = reachable[0].AccountStatus
         if status.Type == 'Secure' and status.Pending is False:
             service_address = status.ServiceSupplier.ServiceAdress
