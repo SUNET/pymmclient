@@ -20,7 +20,7 @@ testing_extras = [
 
 setup(
     name='pymmclient',
-    version='0.7-dev',
+    version='0.7',
     description='Python API for the Swedish government service "Mina Meddelanden"',
     author='Stefan Wold',
     author_email='swold@sunet.se',
