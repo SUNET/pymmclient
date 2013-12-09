@@ -165,7 +165,7 @@ class SerializablePlugin(MessagePlugin):
             reply = []
             for item in context.reply:
                 reply.append(self._recursive_asdict(item))
-        elif isinstance(context.reply, dict):
+        elif isinstance(context.reply, dict) or isinstance(context.reply, object):
             reply = self._recursive_asdict(context.reply)
         else:
             reply = context.reply

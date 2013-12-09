@@ -24,12 +24,12 @@ class TestService(TestCase):
                                support_phone='08-12121212',
                                support_email='info@kommun_b.se',
                                support_url='http://www.kommun_b.se')
-        self.far = Recipient(cert=self.cert, key_file=self.key, sender_org_nr=self.org_nr, use_cache=False, verify=False)
+        far = Recipient(cert=self.cert, key_file=self.key, sender_org_nr=self.org_nr, use_cache=False, verify=False)
+        self.reachable = far.is_reachable(self.recipient)
 
     def test_deliver_secure_message(self):
         # Get service URL from FAR
-        reachable = self.far.is_reachable(self.recipient)
-        status = reachable[0].AccountStatus
+        status = self.reachable[0].AccountStatus
         if status.Type == 'Secure' and status.Pending is False:
             service_address = status.ServiceSupplier.ServiceAdress
             m = self.message.create_secure_message('Test-dela-ut', 'test', 'text/plain', 'svSE')
@@ -43,3 +43,18 @@ class TestService(TestCase):
             result = service.deliver_secure_message(signed_delivery)
             self.assertTrue(result.Status[0].Delivered)
 
+    def test_deliver_secure_response_serializable(self):
+        status = self.reachable[0].AccountStatus
+        if status.Type == 'Secure' and status.Pending is False:
+            service_address = status.ServiceSupplier.ServiceAdress
+            m = self.message.create_secure_message('Test-dela-ut', 'test', 'text/plain', 'svSE')
+            m.Body.Body = 'RXR0IGxpdGV0IHPDpGtlcnQgbWVkZGVsYW5kZSBmcsOlbiBNaW5hTWVkZGVsYW5kZW4h'
+            signed_delivery = self.message.create_signed_delivery([self.recipient], m)
+            service = Service(cert=self.cert,
+                              key_file=self.key,
+                              use_cache=False,
+                              ws_endpoint=service_address,
+                              verify=False,
+                              serializable=True)
+            result = service.deliver_secure_message(signed_delivery)
+            self.assertTrue(result['Status'][0]['Delivered'])
