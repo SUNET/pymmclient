@@ -1,15 +1,15 @@
 #-*- encoding: utf-8 -*-
 from pymmclient.message import Message
+from . import BaseTest
 import os
 import pkg_resources
-import unittest
 import re
 import time
 
 usleep = lambda x: time.sleep(x/1000000.0)
 
 
-class TestMessage(unittest.TestCase):
+class TestMessage(BaseTest):
     def setUp(self):
         data_dir = pkg_resources.resource_filename(__name__, 'data')
         self.cert = os.path.join(data_dir, 'Kommun_B.crt')
@@ -26,7 +26,8 @@ class TestMessage(unittest.TestCase):
                                support_text='Vänd er till X om ni har frågor angående detta meddelande',
                                support_phone='08-12121212',
                                support_email='info@kommun_b.se',
-                               support_url='http://www.kommun_b.se')
+                               support_url='http://www.kommun_b.se',
+                               ws_endpoint=self.ws_url + 'Message')
         self.my_msg = self.message.create_secure_message('Test-skicka', 'test', 'text/plain', 'svSE')
 
     def test_create_secure_message(self):
@@ -56,6 +57,3 @@ class TestMessage(unittest.TestCase):
             pass
         else:
             self.fail("Expected exception NOT thrown!")
-
-if __name__ == '__main__':
-    unittest.main()

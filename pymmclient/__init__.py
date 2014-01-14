@@ -12,5 +12,5 @@ __all__ = [
     'utils'
 ]
 
-# Currently set to the test environment
-__ws_base_endpoint__ = 'https://notarealhost.skatteverket.se/webservice/accao/'
+# Currently set to the production environment
+__ws_base_endpoint__ = 'https://www5.skatteverket.se/webservice/ec/'

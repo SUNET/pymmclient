@@ -1,13 +1,13 @@
 #-*- encoding: utf-8 -*-
+from . import BaseTest
 from pymmclient.service import Service
 from pymmclient.message import Message
 from pymmclient.recipient import Recipient
-from unittest import TestCase
 import os
 import pkg_resources
 
 
-class TestService(TestCase):
+class TestService(BaseTest):
     def setUp(self):
         data_dir = pkg_resources.resource_filename(__name__, 'data')
         self.cert = os.path.join(data_dir, 'Kommun_B.crt')
@@ -23,8 +23,10 @@ class TestService(TestCase):
                                use_cache=False,
                                support_phone='08-12121212',
                                support_email='info@kommun_b.se',
-                               support_url='http://www.kommun_b.se')
-        far = Recipient(cert=self.cert, key_file=self.key, sender_org_nr=self.org_nr, use_cache=False, verify=False)
+                               support_url='http://www.kommun_b.se',
+                               ws_endpoint=self.ws_url + 'Message')
+        far = Recipient(cert=self.cert, key_file=self.key, sender_org_nr=self.org_nr, use_cache=False, verify=False,
+                        ws_endpoint=self.ws_url + 'Recipient')
         self.reachable = far.is_reachable(self.recipient)
 
     def test_deliver_secure_message(self):
