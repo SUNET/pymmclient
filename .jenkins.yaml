@@ -1,0 +1,5 @@
+publish_over_ssh:
+  - pypi.sunet.se
+slack:
+  room: eduid-builds
+clean_workspace: true
